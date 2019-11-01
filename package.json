@@ -1,0 +1,59 @@
+{
+  "name": "oia",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "http://keepitoakland.town",
+  "devDependencies": {
+    "babel-eslint": "10.0.2",
+    "eslint": "^6.3.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-flowtype": "^2.46.3",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.8.2",
+    "eslint-plugin-react-hooks": "^2.0.1",
+    "eslint-plugin-standard": "^3.1.0",
+    "gh-pages": "^1.0.0",
+    "react-scripts": "^3.0.1"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
+    "google-map-react": "^1.1.5",
+    "prettier": "^1.12.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "react-transition-group": "^4.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "CI=false react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": false
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
