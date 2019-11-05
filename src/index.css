@@ -96,6 +96,10 @@ a.link-out {
   justify-content: center;
 }
 
+.j-between {
+  justify-content: space-between;
+}
+
 .o-scroll {
   overflow: scroll;
 }
@@ -120,6 +124,11 @@ a.link-out {
 .hover-swipe:hover::after {
   width: 100%;
   left: 0;
+}
+
+.clickable {
+  cursor: pointer;
+  user-select: none;
 }
 
 section {
