@@ -4,6 +4,7 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import SHOPS from './SHOPS.json';
 import {MAP_STYLE} from './Const';
+import {GMAPS_API_KEY} from './KEYS';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -228,7 +229,7 @@ class Map extends React.PureComponent {
         <div className="col col-8 row-12">
           <GoogleMapReact
             bootstrapURLKeys={{
-              key: '	AIzaSyC3UZzjQjemSy8oeoeevKsVYVB-YmJIkr8',
+              key: GMAPS_API_KEY,
             }}
             defaultCenter={this.defaultCenter}
             defaultZoom={this.defaultZoom}
