@@ -146,7 +146,6 @@ section {
 .keep-it {
   background: black;
   color: white;
-  padding-top: 20vh;
   box-sizing: border-box;
 }
 
@@ -224,6 +223,40 @@ section {
 }
 .search-filter:focus {
   outline: none;
+}
+
+.full-cover-bg {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.full-cover-bg > img.img-cover {
+  position: absolute;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity var(--timing-f-slow);
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity var(--timing-f-slow);
+}
+
+.img-cover {
+  object-fit: cover;
+  min-height: 100%;
 }
 
 @media only screen and (max-width: 1024px) {
