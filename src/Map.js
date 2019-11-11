@@ -6,6 +6,12 @@ import SHOPS from './SHOPS.json';
 import {MAP_STYLE} from './Const';
 import {GMAPS_API_KEY} from './KEYS';
 
+const NAME = 'OIA MEMBERSHIP BUSINESS NAME';
+const CATEGORY = 'WEBSITE CATEGORY';
+const NEIGHBORHOOD = 'NEIGHBORHOOD';
+const ADDRESS = 'Address';
+const WEBSITE = 'Website';
+
 window.SHOPS = SHOPS;
 
 function sleep(ms) {
@@ -14,7 +20,9 @@ function sleep(ms) {
 
 const getLatLngFromAddr = (geocoder, addr) =>
   new Promise((resolve, reject) => {
+    console.log('geocoding', geocoder);
     geocoder.geocode({address: `${addr}, Oakland, CA`}, (res, status) => {
+      console.log('geocode', res);
       if (status === 'OK') {
         resolve(res[0].geometry.location);
       } else {
@@ -27,8 +35,10 @@ const updateShops = async maps => {
   const geocoder = new maps.Geocoder();
   for (const shop of SHOPS) {
     try {
+      console.log(shop);
       const res = await getLatLngFromAddr(geocoder, shop.Address);
       await sleep(1000);
+      console.log(res);
       shop.lat = res.lat();
       shop.lng = res.lng();
     } catch (error) {
@@ -37,6 +47,8 @@ const updateShops = async maps => {
   }
   console.log(JSON.stringify(SHOPS));
 };
+
+window.updateShops = updateShops;
 
 const Marker = ({$hover, shop, onClick, active}) => (
   <div
@@ -69,33 +81,27 @@ class Map extends React.PureComponent {
             x
           </div>
           <h2>
-            {this.state.focusShop['Business Name']}
+            {this.state.focusShop[NAME]}
             <small className="neighborhood">
-              {this.state.focusShop['Neigborhood']}
+              {this.state.focusShop[NEIGHBORHOOD]}
             </small>
           </h2>
           <br />
-          <i>
-            {
-              this.state.focusShop[
-                'Category (where you want your business listed)'
-              ]
-            }
-          </i>
+          <i>{this.state.focusShop[CATEGORY]}</i>
           <br />
-          <small>{this.state.focusShop['Address']}</small>
+          <small>{this.state.focusShop[ADDRESS]}</small>
           <small>
             <a
               className="hover-swipe link-out"
               href={
-                this.state.focusShop['Website'].includes('http')
-                  ? this.state.focusShop['Website']
-                  : `http://${this.state.focusShop['Website']}`
+                this.state.focusShop[WEBSITE].includes('http')
+                  ? this.state.focusShop[WEBSITE]
+                  : `http://${this.state.focusShop[WEBSITE]}`
               }
               target="_blank"
               rel="noopener noreferrer"
             >
-              {this.state.focusShop['Website']}
+              {this.state.focusShop[WEBSITE]}
             </a>
           </small>
         </div>
@@ -131,20 +137,15 @@ class Map extends React.PureComponent {
                   <h4>DINE</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(
-                      shop =>
-                        shop[
-                          'Category (where you want your business listed)'
-                        ] === 'DINE',
-                    )
+                    {SHOPS.filter(shop => shop[CATEGORY] === 'DINE')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -152,7 +153,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -161,20 +162,15 @@ class Map extends React.PureComponent {
                   <h4>DRINK</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(
-                      shop =>
-                        shop[
-                          'Category (where you want your business listed)'
-                        ] === 'DRINK',
-                    )
+                    {SHOPS.filter(shop => shop[CATEGORY] === 'DRINK')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -182,7 +178,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -192,20 +188,15 @@ class Map extends React.PureComponent {
                   <h4>SHOP</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(
-                      shop =>
-                        shop[
-                          'Category (where you want your business listed)'
-                        ] === 'SHOP',
-                    )
+                    {SHOPS.filter(shop => shop[CATEGORY] === 'SHOP')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -213,7 +204,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -224,18 +215,16 @@ class Map extends React.PureComponent {
                   <ul className="shop-list">
                     {SHOPS.filter(
                       shop =>
-                        shop[
-                          'Category (where you want your business listed)'
-                        ] === 'THRIVE (lifestyle+Wellness+Other)',
+                        shop[CATEGORY] === 'THRIVE (lifestyle+Wellness+Other)',
                     )
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -243,7 +232,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -256,15 +245,15 @@ class Map extends React.PureComponent {
                   <h4>DIAMOND</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Diamond')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Diamond')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -272,7 +261,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -282,16 +271,16 @@ class Map extends React.PureComponent {
                   <br />
                   <ul className="shop-list">
                     {SHOPS.filter(
-                      shop => shop['Neigborhood'] === 'Diamond/Laurel',
+                      shop => shop[NEIGHBORHOOD] === 'Diamond/Laurel',
                     )
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -299,7 +288,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -308,15 +297,15 @@ class Map extends React.PureComponent {
                   <h4>DOWNTOWN</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Downtown')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Downtown')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -324,7 +313,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -333,15 +322,15 @@ class Map extends React.PureComponent {
                   <h4>FRUITVALE</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Fruitvale')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Fruitvale')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -349,7 +338,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -358,15 +347,15 @@ class Map extends React.PureComponent {
                   <h4>GRAND LAKE</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Grand Lake')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Grand Lake')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -374,7 +363,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -383,15 +372,15 @@ class Map extends React.PureComponent {
                   <h4>JACK LONDON</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Jack London')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Jack London')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -399,7 +388,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -409,15 +398,15 @@ class Map extends React.PureComponent {
                   <h4>MONTCLAIR</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Montclair')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Montclair')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -425,7 +414,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -434,15 +423,15 @@ class Map extends React.PureComponent {
                   <h4>OLD OAKLAND</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Old Oakland')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Old Oakland')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -450,7 +439,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -459,17 +448,15 @@ class Map extends React.PureComponent {
                   <h4>PIEDMONT AVE</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(
-                      shop => shop['Neigborhood'] === 'Piedmont Ave',
-                    )
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Piedmont Ave')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -477,7 +464,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -486,15 +473,15 @@ class Map extends React.PureComponent {
                   <h4>ROCKRIDGE</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Rockridge')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Rockridge')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -502,7 +489,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -513,17 +500,17 @@ class Map extends React.PureComponent {
                   <ul className="shop-list">
                     {SHOPS.filter(
                       shop =>
-                        shop['Neigborhood'] === 'Temescal' ||
-                        shop['Neigborhood'] === 'Temescale',
+                        shop[NEIGHBORHOOD] === 'Temescal' ||
+                        shop[NEIGHBORHOOD] === 'Temescale',
                     )
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -531,7 +518,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -540,15 +527,15 @@ class Map extends React.PureComponent {
                   <h4>UPTOWN</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop['Neigborhood'] === 'Uptown')
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Uptown')
                       .filter(
                         shop =>
-                          shop['Business Name']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()) ||
-                          shop['Address']
-                            .toLowerCase()
-                            .includes(this.state.searchFilter.toLowerCase()),
+                          shop[NAME].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ) ||
+                          shop[ADDRESS].toLowerCase().includes(
+                            this.state.searchFilter.toLowerCase(),
+                          ),
                       )
                       .map(shop => (
                         <li>
@@ -556,7 +543,7 @@ class Map extends React.PureComponent {
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
                           >
-                            {shop['Business Name']}
+                            {shop[NAME]}
                           </a>
                         </li>
                       ))}
@@ -593,6 +580,7 @@ class Map extends React.PureComponent {
               styles: MAP_STYLE,
             }}
             onGoogleApiLoaded={({maps}) => {
+              window.maps = maps;
               // updateShops();
             }}
             hoverDistance={20}
@@ -606,8 +594,7 @@ class Map extends React.PureComponent {
                 onClick={() => this.setState({focusShop: shop})}
                 active={
                   this.state.focusShop &&
-                  shop['Business Name'] ===
-                    this.state.focusShop['Business Name']
+                  shop[NAME] === this.state.focusShop[NAME]
                 }
               />
             ))}
