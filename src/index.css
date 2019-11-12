@@ -94,6 +94,17 @@ a.link-out {
   box-sizing: border-box;
 }
 
+.padding-thick {
+  padding: 0 80px;
+  box-sizing: border-box;
+}
+
+.padding-thick-left {
+  padding: 24px;
+  padding-left: 80px;
+  box-sizing: border-box;
+}
+
 .p-relative {
   position: relative;
 }
@@ -152,7 +163,7 @@ a.link-out {
 
 section {
   width: 100%;
-  height: calc(100vh / 12 * 10);
+  height: calc(100vh / 12 * 11);
   min-height: 300px;
   position: relative;
 }
@@ -179,6 +190,10 @@ section {
   letter-spacing: 8px;
   font-size: 72px;
   margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 18px;
 }
 
 .shopify-container-wrapper {
@@ -288,6 +303,7 @@ section {
 .img-cover {
   object-fit: cover;
   min-height: 100%;
+  max-height: 100%;
 }
 
 .focus-overlay {
@@ -314,8 +330,8 @@ section {
 
 @media only screen and (max-width: 768px) {
   section {
-    min-height: calc(100vh / 12 * 10);
-    height: calc(100vh / 12 * 10);
+    min-height: calc(100vh / 12 * 11);
+    height: calc(100vh / 12 * 11);
   }
   .rowc-desktop {
     flex-direction: row;

@@ -4,7 +4,7 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import SHOPS from './SHOPS.json';
 import {MAP_STYLE} from './Const';
-import {GMAPS_API_KEY_PERSONAL as GMAPS_API_KEY} from './KEYS';
+import {GMAPS_API_KEY} from './KEYS';
 
 const NAME = 'OIA MEMBERSHIP BUSINESS NAME';
 const CATEGORY = 'WEBSITE CATEGORY';
@@ -80,7 +80,7 @@ class Map extends React.PureComponent {
   render() {
     const focusOverlay =
       this.state.focusShop != null ? (
-        <div className="col col-12 row-12 p-absolute focus-overlay padding-24">
+        <div className="col col-12 row-12 p-absolute focus-overlay padding-thick-left">
           <div
             className="close-button clickable"
             onClick={() => this.setState({focusShop: null})}
@@ -116,7 +116,7 @@ class Map extends React.PureComponent {
     const sidebar = (
       <>
         {focusOverlay}
-        <div className="col col-12 row-12 p-relative o-scroll padding-24">
+        <div className="col col-12 row-12 p-relative o-scroll padding-thick-left">
           <input
             type="text"
             onChange={e => this.setState({searchFilter: e.target.value})}
@@ -249,11 +249,11 @@ class Map extends React.PureComponent {
             ) : (
               <>
                 <div className="col colc-6">
-                  <h4>DIAMOND/LAUREL</h4>
+                  <h4>DIMOND/LAUREL</h4>
                   <br />
                   <ul className="shop-list">
                     {SHOPS.filter(
-                      shop => shop[NEIGHBORHOOD] === 'Diamond/Laurel',
+                      shop => shop[NEIGHBORHOOD] === 'Dimond/Laurel',
                     )
                       .filter(
                         shop =>
