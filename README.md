@@ -14,9 +14,9 @@ Updating Shops
 1. Convert to JSON
 1. Paste JSON into `src/SHOPS.json`, overwriting the data there
 1. Update shop coordinates thru Google's geocoding API so we can place the markers properly
-a. `yarn start`
-a. in the console at `localhost:3000`, run `updateShops(SHOPS)`
-a. wait for it to finish, then copy the output and paste it into `src/SHOPS.json`
+    - `yarn start`
+    - in the console at `localhost:3000`, run `updateShops(SHOPS)`
+    - wait for it to finish, then copy the output and paste it into `src/SHOPS.json`
 1. Manually fix neighborhood names (Temescale -> Temescal, Jack London Square -> Jack London, etc)
 
 API Keys
