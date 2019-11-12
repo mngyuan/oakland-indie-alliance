@@ -1,4 +1,4 @@
-KeepItOakland.town
+[KeepItOakland.town](http://keepitoakland.town/)
 ===
 SPA React built to a single minified combo JS/CSS tag for inclusion in Wordpress.
 
