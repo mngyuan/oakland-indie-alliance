@@ -25,6 +25,6 @@ Stored in a `.gitignore`d file in `src/KEYS.js`.
 
 Deploying
 ---
-`yarn build`, then manually replace `static/media/` with `wp-content/uploads/2019/11/` or whatever wordpress folder the images are uploaded in in `dist/build/static/js/bundle.min.js`.
+`yarn build`, then manually replace `static/media/` with `wp-content/uploads/2019/11/` or whatever wordpress folder the images are uploaded in in `dist/build/static/js/bundle.min.js`. Make the filenames match i.e. `1.aeasfj.png` -> `1.png`.
 
 Copy paste `dist/build/static/js/bundle.min.js` into a `<script type="text/javascript">` tag in wordpress.
