@@ -48,9 +48,14 @@ a.link-out {
 }
 
 .row,
-.rowc {
+.rowc,
+.rowc-desktop {
   display: flex;
   flex-direction: row;
+}
+
+.row-9 {
+  height: calc(100% / 12 * 9);
 }
 
 .row-12 {
@@ -66,6 +71,7 @@ a.link-out {
   width: calc(100% / 12 * 4);
 }
 
+.col-6,
 .colc-6 {
   width: calc(100% / 12 * 6);
 }
@@ -86,6 +92,19 @@ a.link-out {
 .padding-24 {
   padding: 24px;
   box-sizing: border-box;
+}
+
+.p-relative {
+  position: relative;
+}
+
+.p-absolute {
+  position: absolute;
+}
+
+.pin-top-left {
+  top: 0;
+  left: 0;
 }
 
 .a-center {
@@ -133,7 +152,7 @@ a.link-out {
 
 section {
   width: 100%;
-  height: 100vh;
+  height: calc(100vh / 12 * 10);
   min-height: 300px;
   position: relative;
 }
@@ -259,11 +278,38 @@ section {
   min-height: 100%;
 }
 
+.focus-overlay {
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  width: initial;
+}
+
 @media only screen and (max-width: 1024px) {
+  .rowc-desktop {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  section {
+    min-height: calc(100vh / 12 * 10);
+    height: calc(100vh / 12 * 10);
+  }
+  .rowc-desktop {
+    flex-direction: row;
+  }
   .rowc {
     flex-direction: column;
   }
-  .colc-6 {
+  .rowc > .col-4,
+  .rowc > .col-6,
+  .rowc > .col-8 {
     width: 100%;
+    flex: 1;
   }
 }

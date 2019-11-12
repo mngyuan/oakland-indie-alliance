@@ -52,8 +52,8 @@ class App extends React.PureComponent {
     return (
       <>
         <section className="col full keep-it">
-          <div className="row row-12">
-            <div className="col colc-6 j-center a-center">
+          <div className="rowc row-12">
+            <div className="col col-6 j-center a-center">
               <div className="col padding-24">
                 <span>
                   <span className="keep-it-text">Keep it</span>
@@ -80,7 +80,7 @@ class App extends React.PureComponent {
                 </p>
               </div>
             </div>
-            <RotatingBackgroundImage className="col colc-6" imgs={PHOTOS}>
+            <RotatingBackgroundImage className="col col-6" imgs={PHOTOS}>
               test
             </RotatingBackgroundImage>
           </div>
@@ -92,7 +92,6 @@ class App extends React.PureComponent {
             className="shopify-container"
           ></div>
         </section>
-        <section className="row a-center j-center full">test</section>
       </>
     );
   }

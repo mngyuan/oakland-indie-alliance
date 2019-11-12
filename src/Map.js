@@ -4,7 +4,7 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import SHOPS from './SHOPS.json';
 import {MAP_STYLE} from './Const';
-import {GMAPS_API_KEY} from './KEYS';
+import {GMAPS_API_KEY_PERSONAL as GMAPS_API_KEY} from './KEYS';
 
 const NAME = 'OIA MEMBERSHIP BUSINESS NAME';
 const CATEGORY = 'WEBSITE CATEGORY';
@@ -12,7 +12,20 @@ const NEIGHBORHOOD = 'NEIGHBORHOOD';
 const ADDRESS = 'Address';
 const WEBSITE = 'Website';
 
-window.SHOPS = SHOPS;
+function deleteEmptyProps(obj) {
+  var propNames = Object.getOwnPropertyNames(obj);
+  for (var i = 0; i < propNames.length; i++) {
+    var propName = propNames[i];
+    if (
+      obj[propName] === null ||
+      obj[propName] === undefined ||
+      obj[propName] === ''
+    ) {
+      delete obj[propName];
+    }
+  }
+  return obj;
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -20,9 +33,7 @@ function sleep(ms) {
 
 const getLatLngFromAddr = (geocoder, addr) =>
   new Promise((resolve, reject) => {
-    console.log('geocoding', geocoder);
     geocoder.geocode({address: `${addr}, Oakland, CA`}, (res, status) => {
-      console.log('geocode', res);
       if (status === 'OK') {
         resolve(res[0].geometry.location);
       } else {
@@ -35,20 +46,16 @@ const updateShops = async maps => {
   const geocoder = new maps.Geocoder();
   for (const shop of SHOPS) {
     try {
-      console.log(shop);
       const res = await getLatLngFromAddr(geocoder, shop.Address);
       await sleep(1000);
-      console.log(res);
       shop.lat = res.lat();
       shop.lng = res.lng();
     } catch (error) {
       console.log(error);
     }
   }
-  console.log(JSON.stringify(SHOPS));
+  console.log(JSON.stringify(SHOPS.map(deleteEmptyProps)));
 };
-
-window.updateShops = updateShops;
 
 const Marker = ({$hover, shop, onClick, active}) => (
   <div
@@ -71,9 +78,9 @@ class Map extends React.PureComponent {
   };
 
   render() {
-    const sidebar =
+    const focusOverlay =
       this.state.focusShop != null ? (
-        <div className="col col-12 row-12">
+        <div className="col col-12 row-12 p-absolute focus-overlay padding-24">
           <div
             className="close-button clickable"
             onClick={() => this.setState({focusShop: null})}
@@ -105,8 +112,11 @@ class Map extends React.PureComponent {
             </a>
           </small>
         </div>
-      ) : (
-        <div className="col col-12 row-12">
+      ) : null;
+    const sidebar = (
+      <>
+        {focusOverlay}
+        <div className="col col-12 row-12 p-relative o-scroll padding-24">
           <input
             type="text"
             onChange={e => this.setState({searchFilter: e.target.value})}
@@ -130,7 +140,7 @@ class Map extends React.PureComponent {
             </div>
           </div>
           <br />
-          <div className="rowc row-12 col-12">
+          <div className="rowc-desktop row-12 col-12">
             {this.state.category === 'type' ? (
               <>
                 <div className="col colc-6">
@@ -143,12 +153,12 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
-                        <li>
+                        <li key={shop[NAME]}>
                           <a
                             className="hover-swipe"
                             onClick={() => this.setState({focusShop: shop})}
@@ -168,9 +178,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -194,9 +204,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -213,18 +223,15 @@ class Map extends React.PureComponent {
                   <h4>THRIVE</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(
-                      shop =>
-                        shop[CATEGORY] === 'THRIVE (lifestyle+Wellness+Other)',
-                    )
+                    {SHOPS.filter(shop => shop[CATEGORY] === 'THRIVE')
                       .filter(
                         shop =>
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -242,18 +249,20 @@ class Map extends React.PureComponent {
             ) : (
               <>
                 <div className="col colc-6">
-                  <h4>DIAMOND</h4>
+                  <h4>DIAMOND/LAUREL</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Diamond')
+                    {SHOPS.filter(
+                      shop => shop[NEIGHBORHOOD] === 'Diamond/Laurel',
+                    )
                       .filter(
                         shop =>
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -267,20 +276,18 @@ class Map extends React.PureComponent {
                       ))}
                   </ul>
                   <br />
-                  <h4>DIAMOND/LAUREL</h4>
+                  <h4>CHINATOWN</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(
-                      shop => shop[NEIGHBORHOOD] === 'Diamond/Laurel',
-                    )
+                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'China Town')
                       .filter(
                         shop =>
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -303,9 +310,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -328,9 +335,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -353,9 +360,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -372,15 +379,19 @@ class Map extends React.PureComponent {
                   <h4>JACK LONDON</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Jack London')
+                    {SHOPS.filter(
+                      shop =>
+                        shop[NEIGHBORHOOD] === 'Jack London' ||
+                        shop[NEIGHBORHOOD] === 'Jack London Square',
+                    )
                       .filter(
                         shop =>
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -404,9 +415,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -429,9 +440,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -448,15 +459,19 @@ class Map extends React.PureComponent {
                   <h4>PIEDMONT AVE</h4>
                   <br />
                   <ul className="shop-list">
-                    {SHOPS.filter(shop => shop[NEIGHBORHOOD] === 'Piedmont Ave')
+                    {SHOPS.filter(
+                      shop =>
+                        shop[NEIGHBORHOOD] === 'Piedmont Ave' ||
+                        shop[NEIGHBORHOOD] === 'Piedmont',
+                    )
                       .filter(
                         shop =>
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -479,9 +494,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -508,9 +523,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -533,9 +548,9 @@ class Map extends React.PureComponent {
                           shop[NAME].toLowerCase().includes(
                             this.state.searchFilter.toLowerCase(),
                           ) ||
-                          shop[ADDRESS].toLowerCase().includes(
-                            this.state.searchFilter.toLowerCase(),
-                          ),
+                          (shop[ADDRESS] || '')
+                            .toLowerCase()
+                            .includes(this.state.searchFilter.toLowerCase()),
                       )
                       .map(shop => (
                         <li>
@@ -553,7 +568,8 @@ class Map extends React.PureComponent {
             )}
           </div>
         </div>
-      );
+      </>
+    );
 
     const mapProps =
       this.state.focusShop != null
@@ -566,8 +582,8 @@ class Map extends React.PureComponent {
           }
         : {};
     return (
-      <section className="row a-center j-center full black-bg">
-        <div className="rowc col-4 row-12 padding-24 o-scroll">{sidebar}</div>
+      <section className="rowc a-center j-center full black-bg">
+        <div className="rowc col-4 row-12 p-relative">{sidebar}</div>
         <div className="col col-8 row-12">
           <GoogleMapReact
             bootstrapURLKeys={{
