@@ -39,8 +39,8 @@ const RotatingBackgroundImage = ({imgs, className}) => {
 
 class App extends React.PureComponent {
   componentDidMount() {
-    const nameplates = ['Oakland', 'indie', 'local', 'real'];
-    const keepItNameplate = document.getElementById('keep-it-oakland');
+    const nameplates = ['indie', 'local', 'real'];
+    const keepItNameplate = document.getElementById('keep-it-rotate');
     let i = 0;
     setInterval(() => {
       keepItNameplate.innerText = nameplates[i];
@@ -58,9 +58,13 @@ class App extends React.PureComponent {
                 <span>
                   <span className="keep-it-text">Keep it</span>
                   <br />
-                  <span className="keep-it-text" id="keep-it-oakland">
-                    Oakland
+                  <span className="keep-it-text" id="keep-it-rotate">
+                    Indie
                   </span>
+                  <br />
+                  <span className="keep-it-text">Keep it</span>
+                  <br />
+                  <span className="keep-it-text">Oakland</span>
                 </span>
                 <br />
                 <p>
@@ -68,15 +72,6 @@ class App extends React.PureComponent {
                   and anyone who enjoys our beloved Town to patronize and
                   preserve what makes Oakland so special: the flavor, color, and
                   creativity of its independent businesses.
-                </p>
-                <br />
-                <p>
-                  When you shop, dine and experience local businesses, rock the
-                  locally designed and produced Keep It Oakland merchandise or
-                  share your love for the movement on social media, you are
-                  making a powerful statement and demonstrating your commitment
-                  to the independent businesses that define Oakland’s culture,
-                  community, and local economy.
                 </p>
               </div>
             </div>

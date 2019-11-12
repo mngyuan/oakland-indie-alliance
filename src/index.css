@@ -35,9 +35,9 @@ h6 {
 }
 
 h4 {
-  font-size: 16px;
+  font-size: 24px;
   font-weight: bold;
-  font-family: 'Playfair Display', sans-serif;
+  font-family: 'DINEngschriftStd', sans-serif;
   letter-spacing: 2px;
 }
 
@@ -173,10 +173,12 @@ section {
   color: black;
   font-family: 'DINEngschriftStd', sans-serif;
   text-transform: uppercase;
-  padding: 4px 24px;
+  display: inline-block;
+  padding: 4px 12px;
   padding-top: 24px;
-  letter-spacing: 3px;
+  letter-spacing: 8px;
   font-size: 72px;
+  margin-bottom: 8px;
 }
 
 .shopify-container {
@@ -287,6 +289,11 @@ section {
   right: 0;
   bottom: 0;
   width: initial;
+}
+
+.switcher {
+  font-family: 'DINEngschriftStd', sans-serif;
+  font-size: 24px;
 }
 
 @media only screen and (max-width: 1024px) {

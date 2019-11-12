@@ -127,13 +127,13 @@ class Map extends React.PureComponent {
           <br />
           <div className="row col-12 j-between">
             <div
-              className="clickable"
+              className="switcher clickable"
               onClick={() => this.setState({category: 'type'})}
             >
               TYPE
             </div>
             <div
-              className="clickable"
+              className="switcher clickable"
               onClick={() => this.setState({category: 'neighborhood'})}
             >
               NEIGHBORHOOD
