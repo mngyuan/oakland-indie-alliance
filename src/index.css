@@ -253,6 +253,7 @@ section {
 
 .map-marker.active {
   border: 8px solid red;
+  z-index: 1;
 }
 
 .map-marker.active::after {
