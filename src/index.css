@@ -197,6 +197,10 @@ section {
   list-style-type: none;
 }
 
+.shop-list a.hover-swipe {
+  color: #4e4e4e;
+}
+
 .neighborhood {
   font-size: 12px;
   text-transform: uppercase;
@@ -213,6 +217,7 @@ section {
   width: 8px;
   height: 8px;
   transform: translateX(-50%) translateY(-50%);
+  box-sizing: content-box;
 }
 
 .map-marker::after {
@@ -224,6 +229,7 @@ section {
   left: -6px;
   border: 10px solid transparent;
   border-top: 17px solid var(--primary);
+  box-sizing: content-box;
 }
 
 .map-marker.active {
