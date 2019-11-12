@@ -81,7 +81,7 @@ class App extends React.PureComponent {
           </div>
         </section>
         <Map />
-        <section className="row a-center j-center full">
+        <section className="row a-center j-center full shopify-container-wrapper">
           <div
             id="collection-component-6e8fc3e1e2d"
             className="shopify-container"

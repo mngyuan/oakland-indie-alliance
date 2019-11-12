@@ -181,9 +181,13 @@ section {
   margin-bottom: 8px;
 }
 
+.shopify-container-wrapper {
+  min-height: 120vh;
+}
 .shopify-container {
   position: absolute;
   top: 0;
+  min-height: 120vh;
 }
 
 .shop-list {
