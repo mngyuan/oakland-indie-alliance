@@ -10,7 +10,7 @@ const PHOTOS = importAll(
 );
 
 const RotatingBackgroundImage = ({imgs, className}) => {
-  const [curImage, setCurImage] = useState(0);
+  const [curImage, setCurImage] = useState(1);
   useEffect(() => {
     const interval = setInterval(
       () => setCurImage((curImage + 1) % imgs.length),
@@ -53,30 +53,28 @@ class App extends React.PureComponent {
       <>
         <section className="col full keep-it">
           <div className="rowc row-12">
-            <div className="col col-6 j-center a-center">
-              <div className="col padding-thick">
-                <span>
-                  <span className="keep-it-text">Keep it</span>
-                  <br />
-                  <span className="keep-it-text" id="keep-it-rotate">
-                    Indie
-                  </span>
-                  <br />
-                  <span className="keep-it-text">Keep it</span>
-                  <br />
-                  <span className="keep-it-text">Oakland</span>
+            <div className="col col-6 j-center padding-thick">
+              <span>
+                <span className="keep-it-text">Keep it</span>
+                <br />
+                <span className="keep-it-text" id="keep-it-rotate">
+                  Indie
                 </span>
                 <br />
-                <p className="subtitle">
-                  Keep It Oakland is a liefesyle, a movement, and a celebration
-                  launched and championed by local independent businesses who
-                  have deep roots in our beloved Town.
-                </p>
-                <p className="subtitle">
-                  When you SHOP, DINE, DRINK & THRIVE at indie busineses, you
-                  support and help shape the community we love #KEEPITOAKLAND.
-                </p>
-              </div>
+                <span className="keep-it-text">Keep it</span>
+                <br />
+                <span className="keep-it-text">Oakland</span>
+              </span>
+              <br />
+              <p className="subtitle">
+                Keep It Oakland is a lifestyle, a movement, and a celebration
+                launched and championed by local independent businesses who have
+                deep roots in our beloved Town.
+              </p>
+              <p className="subtitle">
+                When you SHOP, DINE, DRINK & THRIVE at indie busineses, you
+                support and help shape the community we love #KEEPITOAKLAND.
+              </p>
             </div>
             <RotatingBackgroundImage className="col col-6" imgs={PHOTOS}>
               test

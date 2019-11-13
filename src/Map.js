@@ -140,7 +140,7 @@ class Map extends React.PureComponent {
             </div>
           </div>
           <br />
-          <div className="rowc-desktop row-12 col-12">
+          <div className="row row-12 col-12">
             {this.state.category === 'type' ? (
               <>
                 <div className="col colc-6">
@@ -582,7 +582,7 @@ class Map extends React.PureComponent {
           }
         : {};
     return (
-      <section className="rowc a-center j-center full black-bg">
+      <section className="rowc a-center j-center full black-bg map-container">
         <div className="rowc col-4 row-12 p-relative">{sidebar}</div>
         <div className="col col-8 row-12">
           <GoogleMapReact
