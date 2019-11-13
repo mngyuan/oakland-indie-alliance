@@ -116,7 +116,7 @@ class Map extends React.PureComponent {
     const sidebar = (
       <>
         {focusOverlay}
-        <div className="col col-12 row-12 p-relative o-scroll padding-thick-left">
+        <div className="col col-12 row-12 p-relative o-scroll no-bar padding-thick-left">
           <input
             type="text"
             onChange={e => this.setState({searchFilter: e.target.value})}
