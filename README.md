@@ -2,6 +2,8 @@
 ===
 Single page React app built with [`create-react-app`](https://github.com/facebook/create-react-app). Deployed to a single minified combo JS/CSS tag for inclusion in Wordpress.
 
+Includes the logo, the map, and a container for Shopify to fill.
+
 Adding Photos
 ---
 All image files in the [`src/static/photos`](src/static/photos) folder are automatically imported
@@ -25,6 +27,6 @@ Stored in a `.gitignore`d file in `src/KEYS.js`.
 
 Deploying
 ---
-`yarn build`, then manually replace `static/media/` with `wp-content/uploads/2019/11/` or whatever wordpress folder the images are uploaded in in `dist/build/static/js/bundle.min.js`. Make the filenames match i.e. `1.aeasfj.png` -> `1.png`.
+`yarn build`, then manually replace `'static/media/'` with `'wp-content/uploads/2019/11/'` or whatever wordpress folder the images are uploaded in in `dist/build/static/js/bundle.min.js`. Make the filenames match i.e. `1.aeasfj.png` -> `1.png`.
 
 Copy paste `dist/build/static/js/bundle.min.js` into a `<script type="text/javascript">` tag in wordpress.
