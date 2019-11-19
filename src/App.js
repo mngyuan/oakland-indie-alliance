@@ -11,6 +11,10 @@ const PHOTOS = importAll(
 
 const RotatingBackgroundImage = ({imgs, className}) => {
   const [curImage, setCurImage] = useState(1);
+  const imgElems = imgs.map((src, i) => (
+    <img className="img-cover" src={src} key={i} />
+  ));
+
   useEffect(() => {
     const interval = setInterval(
       () => setCurImage((curImage + 1) % imgs.length),
@@ -20,9 +24,6 @@ const RotatingBackgroundImage = ({imgs, className}) => {
       clearInterval(interval);
     };
   });
-  const imgElems = imgs.map((src, i) => (
-    <img className="img-cover" src={src} key={i} />
-  ));
 
   return (
     <TransitionGroup className={`${className} full-cover-bg`}>
@@ -53,7 +54,7 @@ class App extends React.PureComponent {
       <>
         <section className="col full keep-it">
           <div className="rowc row-12">
-            <div className="col col-6 j-center padding-thick">
+            <div className="landing-left col j-center padding-thick">
               <span>
                 <span className="keep-it-text">Keep it</span>
                 <br />
@@ -72,22 +73,22 @@ class App extends React.PureComponent {
                 deep roots in our beloved Town.
               </p>
               <p className="subtitle">
-                When you SHOP, DINE, DRINK & THRIVE at indie busineses, you
+                When you SHOP, DINE, DRINK & THRIVE at indie businesses, you
                 support and help shape the community we love #KEEPITOAKLAND.
               </p>
             </div>
-            <RotatingBackgroundImage className="col col-6" imgs={PHOTOS}>
-              test
-            </RotatingBackgroundImage>
+            <RotatingBackgroundImage className="landing-right" imgs={PHOTOS} />
           </div>
         </section>
         <Map />
-        <section className="row a-center j-center full shopify-container-wrapper">
+        <section className="col full shopify-container-wrapper">
+          <h2 className="section-header">SHOP KEEP IT OAKLAND</h2>
           <div
             id="collection-component-6e8fc3e1e2d"
-            className="shopify-container"
+            className="row-12 col-12 shopify-container"
           ></div>
         </section>
+        <h2 className="section-header">SHARE YOUR TOWN LOVE</h2>
       </>
     );
   }

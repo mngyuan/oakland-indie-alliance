@@ -80,7 +80,7 @@ class Map extends React.PureComponent {
   render() {
     const focusOverlay =
       this.state.focusShop != null ? (
-        <div className="col col-12 row-12 p-absolute focus-overlay padding-thick-left">
+        <div className="col col-12 row-12 p-absolute focus-overlay padding-thick">
           <div
             className="close-button clickable"
             onClick={() => this.setState({focusShop: null})}
@@ -116,13 +116,13 @@ class Map extends React.PureComponent {
     const sidebar = (
       <>
         {focusOverlay}
-        <div className="col col-12 row-12 p-relative o-scroll no-bar padding-thick-left">
+        <div className="col col-12 row-12 p-relative o-scroll no-bar padding-thick">
           <input
             type="text"
             onChange={e => this.setState({searchFilter: e.target.value})}
             value={this.state.searchFilter}
             className="search-filter"
-            placeholder="SEARCH ANYTHING"
+            placeholder="SEARCH FOR INDIE BUSINESSES"
           />
           <br />
           <div className="row col-12 j-between">
@@ -582,39 +582,42 @@ class Map extends React.PureComponent {
           }
         : {};
     return (
-      <section className="rowc a-center j-center full black-bg map-container">
-        <div className="rowc col-4 row-12 p-relative">{sidebar}</div>
-        <div className="col col-8 row-12">
-          <GoogleMapReact
-            bootstrapURLKeys={{
-              key: GMAPS_API_KEY,
-            }}
-            defaultCenter={this.defaultCenter}
-            defaultZoom={this.defaultZoom}
-            yesIWantToUseGoogleMapApiInternals
-            options={{
-              styles: MAP_STYLE,
-            }}
-            onGoogleApiLoaded={({maps}) => {
-              window.maps = maps;
-              // updateShops();
-            }}
-            hoverDistance={20}
-            {...mapProps}
-          >
-            {SHOPS.map(shop => (
-              <Marker
-                lat={shop.lat}
-                lng={shop.lng}
-                shop={shop}
-                onClick={() => this.setState({focusShop: shop})}
-                active={
-                  this.state.focusShop &&
-                  shop[NAME] === this.state.focusShop[NAME]
-                }
-              />
-            ))}
-          </GoogleMapReact>
+      <section className="col full black-bg map-container padding-bottom-24">
+        <h2 class="section-header black-bg">FIND INDIE BUSINESSES</h2>
+        <div className="rowc row-12 col-12">
+          <div className="rowc col-4 row-12 p-relative">{sidebar}</div>
+          <div className="col col-8 row-12">
+            <GoogleMapReact
+              bootstrapURLKeys={{
+                key: GMAPS_API_KEY,
+              }}
+              defaultCenter={this.defaultCenter}
+              defaultZoom={this.defaultZoom}
+              yesIWantToUseGoogleMapApiInternals
+              options={{
+                styles: MAP_STYLE,
+              }}
+              onGoogleApiLoaded={({maps}) => {
+                window.maps = maps;
+                // updateShops();
+              }}
+              hoverDistance={20}
+              {...mapProps}
+            >
+              {SHOPS.map(shop => (
+                <Marker
+                  lat={shop.lat}
+                  lng={shop.lng}
+                  shop={shop}
+                  onClick={() => this.setState({focusShop: shop})}
+                  active={
+                    this.state.focusShop &&
+                    shop[NAME] === this.state.focusShop[NAME]
+                  }
+                />
+              ))}
+            </GoogleMapReact>
+          </div>
         </div>
       </section>
     );

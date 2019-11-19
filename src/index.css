@@ -93,14 +93,13 @@ a.link-out {
   box-sizing: border-box;
 }
 
-.padding-thick {
-  padding: 24px 80px;
+.padding-bottom-24 {
+  padding-bottom: 24px;
   box-sizing: border-box;
 }
 
-.padding-thick-left {
-  padding: 24px;
-  padding-left: 80px;
+.padding-thick {
+  padding: 24px 80px;
   box-sizing: border-box;
 }
 
@@ -136,6 +135,8 @@ a.link-out {
 .o-scroll.no-bar {
   position: absolute;
   width: calc(100% + 18px);
+  padding-right: calc(18px + 24px);
+  box-sizing: border-box;
   left: 0;
   top: 0;
 }
@@ -169,14 +170,28 @@ a.link-out {
 
 section {
   width: 100%;
-  height: calc(100vh / 12 * 11);
+  height: calc(100vh / 12 * 12);
   min-height: 300px;
   position: relative;
+}
+
+.section-header {
+  padding: 80px;
+  font-family: 'DINEngschriftStd', sans-serif;
+  letter-spacing: 4px;
 }
 
 .black-bg {
   background: black;
   color: white;
+}
+
+.landing-left {
+  flex-basis: 640px;
+}
+
+.landing-right {
+  flex: 1;
 }
 
 .keep-it {
@@ -208,12 +223,12 @@ section {
   position: absolute;
   top: 0;
   min-height: 120vh;
+  margin-top: 190px;
 }
 
 .shop-list {
   margin: 0;
   padding: 0;
-  color: #4e4e4e;
 }
 
 .shop-list > li {
@@ -222,7 +237,7 @@ section {
 }
 
 .shop-list a.hover-swipe {
-  color: #4e4e4e;
+  color: #8c8c8c;
 }
 
 .neighborhood {
@@ -279,9 +294,14 @@ section {
 
 .full-cover-bg {
   position: relative;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
+}
+
+.img-cover {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
 }
 
 .fade-enter {
@@ -302,12 +322,6 @@ section {
   transition: opacity var(--timing-f-slow);
 }
 
-.img-cover {
-  object-fit: cover;
-  min-height: 100%;
-  max-height: 100%;
-}
-
 .focus-overlay {
   background: black;
   position: absolute;
@@ -325,17 +339,20 @@ section {
 }
 
 .map-container {
-  height: calc(100vh / 12 * 11);
+  height: calc(100vh / 12 * 12);
 }
 
 @media only screen and (max-width: 768px) {
-  .padding-thick-left {
+  .padding-thick {
     padding: 24px;
     padding-left: 24px;
   }
   section {
-    min-height: calc(100vh / 12 * 11);
+    min-height: calc(100vh / 12 * 12);
     height: initial;
+  }
+  .section-header {
+    padding: 80px 24px;
   }
   .rowc {
     flex-direction: column;
@@ -346,13 +363,14 @@ section {
     width: 100%;
     flex-grow: 1;
   }
+  .landing-right {
+    flex: initial;
+    height: 60vh;
+  }
   .o-scroll.no-bar {
     width: 100%;
   }
   .img-cover {
     width: 100%;
-  }
-  .full-cover-bg {
-    height: 40vh;
   }
 }
